@@ -1,0 +1,14 @@
+geo $switch {
+  default 0;
+  2a03:2260:115:100:a62b:b0ff:fed8:6dc2 1; #Essmanns-Backstube-Muenster-Ludgeristrasse-F49
+  2a03:2260:115:100:eade:27ff:fe62:d6da 1; #freifunk-kolpingsfamilie-1
+  2a03:2260:115:100:ea94:f6ff:fe69:b542 1; #marie-curie
+  2a03:2260:115:100:ea94:f6ff:fe29:f738 1; #Windhorststrasse
+  2a03:2260:115:100:eade:27ff:fed6:10d4 1; #tardis
+  2a03:2260:115:100:ea94:f6ff:fe29:f854 1; #dubtown_ms
+  2a03:2260:115:100:ea94:f6ff:fe42:8f88 1; #coinsfunk
+  2a03:2260:115:100:f6f2:6dff:fe3f:cbe2 1; #Freifunk-MS-DH
+  2a03:2260:115:100:c66e:1fff:feb3:7818 1; #ffms-lenz
+  2a03:2260:115:100:62e3:27ff:fece:bfc4 1; #Rotes-Haus
+  2a03:2260:115:100:fa1a:67ff:fe5a:ad47 1; #Funkwerk
+}

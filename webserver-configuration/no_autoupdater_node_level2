@@ -1,0 +1,6 @@
+geo $switch {
+  default 0;
+  2a03:2260:115:100:62e3:27ff:feed:9ce6 1; #Atelier-Haus-G
+  2a03:2260:115:100:32b5:c2ff:febc:f442 1; #kgbvax-pius-cpe
+  2a03:2260:115:100:62e3:27ff:fee7:1548 1; #freifunk_Sieversgruppe3
+}

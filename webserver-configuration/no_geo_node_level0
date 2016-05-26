@@ -1,0 +1,22 @@
+geo $switch {
+  default 0;
+  2a03:2260:115:100:eade:27ff:fe58:7718 1; #freifunk-vvwl
+  2a03:2260:115:100:32b5:c2ff:feee:911a 1; #freifunk-Heinz
+  2a03:2260:115:100:62e3:27ff:fe81:edf8 1; #mk_4
+  2a03:2260:115:100:c66e:1fff:fe58:973b 1; #freifunkc46e1f58973b
+  2a03:2260:115:100:62e3:27ff:fee7:9090 1; #FF-WA-Viehhof
+  2a03:2260:115:100:ea94:f6ff:fef3:461b 1; #DreiEichen-1
+  2a03:2260:115:100:fa1a:67ff:fef9:1bca 1; #osterwiese
+  2a03:2260:115:100:62e3:27ff:fe81:ee6a 1; #mk_1
+  2a03:2260:115:100:92f6:52ff:fe25:d0a2 1; #void-test
+  2a03:2260:115:100:62e3:27ff:feee:5c52 1; #00q_bb57
+  2a03:2260:115:100:62e3:27ff:fece:eb16 1; #FF-Mstr-EGS
+  2a03:2260:115:100:62e3:27ff:feee:5c2c 1; #00q_bb88
+  2a03:2260:115:100:32b5:c2ff:fe87:9e5a 1; #freifunk30b5c2879e5a
+  2a03:2260:115:100:32b5:c2ff:feed:12e8 1; #freifunk30b5c2ed12e8
+  2a03:2260:115:100:62e3:27ff:fe59:95e0 1; #Anstatthotel.com-AP-29-BASE
+  2a03:2260:115:100:32b5:c2ff:fe87:9e92 1; #freifunk30b5c2879e92
+  2a03:2260:115:100:16cc:20ff:fe2c:3998 1; #Hafenkante
+  2a03:2260:115:100:c6e9:84ff:feb5:f7c4 1; #Natuerlich_unverpackt
+  2a03:2260:115:100:eade:27ff:fe3c:17a4 1; #00Q_49661_2
+}

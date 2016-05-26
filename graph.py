@@ -23,7 +23,7 @@ class Graph:
 	def parseNodes(self):
 		for k,v in self.nodes['nodes'].iteritems():
 			lat, lon = self.getGeo(k)
-			node = Node(k, ipv6 = self.getPublicAddress(k), hostname = self.getHostname(k), isOnline = self.getOnlineState(k), lat=lat, lon=lon, coder = self.coder, autoupdater = self.getAutoupdaterStatus(k), branch = self.getBranch(k), isGateway = self.getIsGateway(k))
+			node = Node(k, ipv6 = self.getPublicAddress(k), hostname = self.getHostname(k), isOnline = self.getOnlineState(k), lat=lat, lon=lon, coder = self.coder, autoupdater = self.getAutoupdaterStatus(k), branch = self.getBranch(k), isGateway = self.getIsGateway(k), interfaces = self.getInterfaces(k))
 			self.nodes_list[k] = node
 
 	def parseLinks(self):
@@ -33,30 +33,46 @@ class Graph:
 				if self.nodes_list[link_nodes[link['source']]['node_id']].isGateway == True or self.nodes_list[link_nodes[link['target']]['node_id']].isGateway:
 					self.setVpnLink(link['source'], link['target'])
 				else:
-					self.setLinkBetween(link_nodes[link['source']]['node_id'], link_nodes[link['target']]['node_id'])
+					self.setLinkBetween(link_nodes[link['source']], link_nodes[link['target']])
 			else:
 				self.setVpnLink(link['source'], link['target'])
-					
+	
+	def getLinkType(self, interfaces, link_id):
+		if not interfaces:
+			return None
+		for k, v in interfaces.iteritems():
+			if link_id in v:
+				return k
+
 	def setLinkBetween(self, src, dst, stateOnline = True, lastSeen = None):
-		if src and dst:
-			self.nodes_list[src].links[dst] = {
-				'node' : self.nodes_list[dst],
+		src_id = src['node_id']
+		dst_id = dst['node_id']
+		src_type = self.getLinkType(self.nodes_list[src_id].interfaces, src['id'])
+		dst_type = self.getLinkType(self.nodes_list[dst_id].interfaces, dst['id'])
+		if dst_type == 'other' or src_type == 'other':
+			print 'LAN Link: src:', self.nodes_list[src_id].hostname, 'dst:', self.nodes_list[dst_id].hostname
+
+		if src_id and dst_id:
+			self.nodes_list[src_id].links[dst_id] = {
+				'node' : self.nodes_list[dst_id],
 				'state_online' : stateOnline,
-				'last_seen' : lastSeen
+				'last_seen' : lastSeen,
+				'type' : src_type
 			}
-			self.nodes_list[dst].links[src] = {
-				'node' : self.nodes_list[src],
+			self.nodes_list[dst_id].links[src_id] = {
+				'node' : self.nodes_list[src_id],
 				'state_online' : stateOnline,
-				'last_seen' : lastSeen
+				'last_seen' : lastSeen,
+				'type' : dst_type
 			}
 
 	def setVpnLink(self, src, dst):
-			if 'node_id' not in self.data['batadv']['nodes'][src] or (self.data['batadv']['nodes'][src]['node_id'] and self.nodes_list[self.data['batadv']['nodes'][src]['node_id']].isGateway == True):
-				if 'node_id' in self.data['batadv']['nodes'][dst] and self.data['batadv']['nodes'][dst]['node_id']:
-					self.nodes_list[self.data['batadv']['nodes'][dst]['node_id']].stepsToVpn = 0
-			elif 'node_id' not in self.data['batadv']['nodes'][dst] or (self.data['batadv']['nodes'][dst]['node_id'] and self.nodes_list[self.data['batadv']['nodes'][dst]['node_id']].isGateway == True):
-				if 'node_id' in self.data['batadv']['nodes'][src] and self.data['batadv']['nodes'][src]['node_id']:
-					self.nodes_list[self.data['batadv']['nodes'][src]['node_id']].stepsToVpn = 0
+		if 'node_id' not in self.data['batadv']['nodes'][src] or (self.data['batadv']['nodes'][src]['node_id'] and self.nodes_list[self.data['batadv']['nodes'][src]['node_id']].isGateway == True):
+			if 'node_id' in self.data['batadv']['nodes'][dst] and self.data['batadv']['nodes'][dst]['node_id']:
+				self.nodes_list[self.data['batadv']['nodes'][dst]['node_id']].stepsToVpn = 0
+		elif 'node_id' not in self.data['batadv']['nodes'][dst] or (self.data['batadv']['nodes'][dst]['node_id'] and self.nodes_list[self.data['batadv']['nodes'][dst]['node_id']].isGateway == True):
+			if 'node_id' in self.data['batadv']['nodes'][src] and self.data['batadv']['nodes'][src]['node_id']:
+				self.nodes_list[self.data['batadv']['nodes'][src]['node_id']].stepsToVpn = 0
 
 	def calculateStepsToVpn(self):
 		for node in self.nodes_list.itervalues():
@@ -74,6 +90,12 @@ class Graph:
 					zmap[k] = v
 		return zmap
 
+
+	def getInterfaces(self, node_id):
+		try:
+			return self.nodes['nodes'][node_id]['nodeinfo']['network']['mesh']['bat0']['interfaces']
+		except:
+			return None #lecagy nodes or non well formed node
 
 	def getHostname(self,node_id):
 		return self.nodes['nodes'][node_id]['nodeinfo']['hostname']
@@ -136,13 +158,26 @@ class Graph:
 			if v.isOnline == True:
 				if v.geodata != None:
 					if v.isInRegion(region):
-						for ksub,vsub in v.getNodeCloud({}).iteritems():
+						ncloud = v.getNodeCloud({})
+						for ksub,vsub in ncloud.iteritems():
 							if not vsub.autoupdater or (branch and vsub.branch != branch):
 								break
 						else:
-							results.update(v.getNodeCloud({}))
+							if self.isLANlinkInCloud(ncloud) == False:
+								results.update(ncloud)
 		print "Result:",len(results), region
 		return results
+
+	def isLANlinkInCloud(self, nodeCloud):
+		for k,v in nodeCloud.iteritems():
+			for ksub, vsub in v.links.iteritems():
+				if k in self.nodes_list and ksub in self.nodes_list[k].links:
+					if self.nodes_list[k].links[ksub]['type'] == 'other':
+						return True
+				if ksub in self.nodes_list and k in self.nodes_list[ksub].links:
+					if self.nodes_list[ksub].links[k]['type'] == 'other':
+						return True
+		return False
 
 	def maxDepth(self):
 		maxDepth = 0

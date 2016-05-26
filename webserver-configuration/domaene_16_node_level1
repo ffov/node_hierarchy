@@ -1,0 +1,4 @@
+geo $switch {
+  default 0;
+  2a03:2260:115:100:32b5:c2ff:fe22:e8d6 1; #freifunk_gaer
+}

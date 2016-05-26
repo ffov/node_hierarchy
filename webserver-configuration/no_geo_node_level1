@@ -1,0 +1,12 @@
+geo $switch {
+  default 0;
+  2a03:2260:115:100:ea94:f6ff:fe2a:900c 1; #DreiEichen-2
+  2a03:2260:115:100:c6e9:84ff:fe7f:2baa 1; #mk_2
+  2a03:2260:115:100:62e3:27ff:feee:5c5c 1; #00q_bb99
+  2a03:2260:115:100:62e3:27ff:fee7:8624 1; #Anstatthotel.com-AP-29-1OGR
+  2a03:2260:115:100:eade:27ff:fe4a:f334 1; #DreiEichen-3
+  2a03:2260:115:100:c66e:1fff:fe86:f22a 1; #00Q_49661_1
+  2a03:2260:115:100:62e3:27ff:fee7:87a0 1; #Anstatthotel.com-AP-29-EGR
+  2a03:2260:115:100:62e3:27ff:feee:5770 1; #ooq_bb1
+  2a03:2260:115:100:c6e9:84ff:fe7f:29d2 1; #mk_3
+}

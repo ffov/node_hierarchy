@@ -1,0 +1,4 @@
+geo $switch {
+  default 0;
+  2a03:2260:115:100:62e3:27ff:fee7:1548 1; #freifunk_Sieversgruppe3
+}
