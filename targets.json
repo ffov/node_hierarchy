@@ -88,6 +88,9 @@
 	"domaene_14" : [
 		{"county" : "Kreis Warendorf"}
 	],
+	"domaene_16" : [
+		{"suburb" : "Altstadt"}
+	],
 	"domaene_17" : [
 		{"town" : "Emsdetten"}
 	],
