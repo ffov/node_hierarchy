@@ -87,5 +87,35 @@
 	],
 	"domaene_14" : [
 		{"county" : "Kreis Warendorf"}
+	],
+	"domaene_17" : [
+		{"town" : "Emsdetten"}
+	],
+	"domaene_18" : [
+		{"city" : "Greven"}
+	],
+	"domaene_19" : [
+		{"town" : "Neuenkirchen"}
+	],
+	"domaene_20" : [
+		{"town" : "Emsdetten"}
+	],
+	"domaene_21" : [
+		{"city" : "Rheine"}
+	],
+	"domaene_22" : [
+		{"city" : "Steinfurt"}
+	],
+	"domaene_24" : [
+		{"town" : "Wettringen"}
+	],
+	"domaene_25" : [
+		{"town" : "Emsdetten"}
+	],
+	"domaene_26" : [
+		{"city" : "Borken"}
+	],
+	"domaene_27" : [
+		{"city" : "Selm"}
 	]
 }
