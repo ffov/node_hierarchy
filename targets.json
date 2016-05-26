@@ -106,11 +106,22 @@
 	"domaene_22" : [
 		{"city" : "Steinfurt"}
 	],
+	"domaene_23" : [
+		{"town" : "Altenberge"},
+		{"town" : "Horstmar"},
+		{"town" : "Laer"},
+		{"town" : "Metelen"},
+		{"town" : "Nordwalde"}
+	],
 	"domaene_24" : [
 		{"town" : "Wettringen"}
 	],
 	"domaene_25" : [
-		{"town" : "Emsdetten"}
+		{"city" : "Ibbenbüren"},
+		{"town" : "Ladbergen"},
+		{"town" : "Lengerich"},
+		{"town" : "Lienen"},
+		{"town" : "Tecklenburg"}
 	],
 	"domaene_26" : [
 		{"city" : "Borken"}
