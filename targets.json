@@ -95,7 +95,7 @@
 		{"town" : "Emsdetten"}
 	],
 	"domaene_18" : [
-		{"city" : "Greven"}
+		{"town" : "Greven"}
 	],
 	"domaene_19" : [
 		{"town" : "Neuenkirchen"}
@@ -104,32 +104,32 @@
 		{"town" : "Emsdetten"}
 	],
 	"domaene_21" : [
-		{"city" : "Rheine"}
+		{"town" : "Rheine"}
 	],
 	"domaene_22" : [
-		{"city" : "Steinfurt"}
+		{"town" : "Steinfurt"}
 	],
 	"domaene_23" : [
-		{"town" : "Altenberge"},
+		{"village" : "Altenberge"},
 		{"town" : "Horstmar"},
-		{"town" : "Laer"},
-		{"town" : "Metelen"},
-		{"town" : "Nordwalde"}
+		{"village" : "Laer"},
+		{"village" : "Metelen"},
+		{"village" : "Nordwalde"}
 	],
 	"domaene_24" : [
-		{"town" : "Wettringen"}
+		{"village" : "Wettringen"}
 	],
 	"domaene_25" : [
-		{"city" : "Ibbenbüren"},
-		{"town" : "Ladbergen"},
+		{"town" : "Ibbenbüren"},
+		{"village" : "Ladbergen"},
 		{"town" : "Lengerich"},
-		{"town" : "Lienen"},
+		{"village" : "Lienen"},
 		{"town" : "Tecklenburg"}
 	],
 	"domaene_26" : [
-		{"city" : "Borken"}
+		{"town" : "Borken"}
 	],
 	"domaene_27" : [
-		{"city" : "Selm"}
+		{"town" : "Selm"}
 	]
 }
