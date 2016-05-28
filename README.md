@@ -12,7 +12,7 @@ Im einfachsten Fall wird das Programm dann wie folgt aufgerufen:
 ./node_hierarcy.py --all
 ```
 
-Sollen spezielle ``nodes.json`` und ``graph.json`` Dateien verwendet werden, so kann der Datenpfad wie folgt angegeben werden (dabei kann es sich um einen lokalen Dateipfad als auch um eine http oder https URL handel):
+Sollen spezielle ``nodes.json`` und ``graph.json`` Dateien verwendet werden, so kann der Datenpfad wie folgt angegeben werden (dabei kann es sich sowohl um einen lokalen Dateipfad, als auch um eine http oder https URL handeln):
 
 ```
 ./node_hierarcy.py --all --json-path https://service.freifunk-muensterland.de/maps/data/
@@ -29,13 +29,13 @@ Eine Limitierung auf eine Auswahl an Targets aus der Targets-Datei kann mit dem 
 ./node_hierarcy.py -t domaene_01 domaene_02 --print-status
 ```
 
-Weitere Hilfestellungen erhält mann mit ``-h`` oder ``--help``:
+Weitere Hilfestellungen erhält man mit ``-h`` oder ``--help``:
 ```
 ./node_hierarcy.py
 ```
 
 ### Ein- und Ausgabe
-Standardmäßig wird eine Datei ``targets.json`` erwartet. Soll diese Datei von einer anderen Stelle aufgerufen werden kann das ``--targets-file``-Argument verwendet werden:
+Standardmäßig wird eine Datei ``targets.json`` erwartet. Soll diese Datei von einer anderen Stelle aufgerufen werden, kann das ``--targets-file``-Argument verwendet werden:
 ```
 ./node_hierarcy.py --targets-file /root/targets.json
 ```
