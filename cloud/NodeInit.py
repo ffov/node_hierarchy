@@ -42,8 +42,7 @@ class NodeInit(object):
         addresses = []
         if 'addresses' in self.__jsonObject__['nodeinfo']['network']:
             for address in self.__jsonObject__['nodeinfo']['network']['addresses']:
-                #TODO: make more generic
-                if address.startswith('2a03'):
+                if not address.startswith('fe80'):
                     addresses.append(address)
         return addresses
     
