@@ -58,8 +58,20 @@ class LocalGraph(Graph):
         return nodes
     
     def getNodesWithNoDependencies(self):
-        #TODO: Implement smarter selection
-        return self.getAllNodesWithDepthEquals(self.getMaxDepth())
+        nodesWithNoDependencies = []
+        for k,v in self.__nodes__.items():
+            depth = self.getDeptOfNode(v)
+            hasDependencies = False
+            for link in self.getLinksByNodeID(k):
+                for node in link.getEndpointNodes():
+                    if depth < self.getDeptOfNode(node):
+                        hasDependencies = True
+                        break
+                if hasDependencies == True:
+                    break
+            else:
+                nodesWithNoDependencies.append(v)
+        return nodesWithNoDependencies
     
     def isAutoupdaterEnabledOnAllNodes(self):
         for k, v in self.__nodes__.items():
