@@ -30,7 +30,7 @@ Die Hilfe liefert folgendes:
 $ ./NodeHierarchy.py --help
 usage: NodeHierarchy.py [-h] [-j JSON_PATH] [-s SHAPES_PATH] -t TARGETS
                         [TARGETS ...] [-o OUT_FILE] [-v]
-                        [-f [FILTERS [FILTERS ...]]]
+                        [-f [{exclude_clouds_with_lan_links,no_lan} [{exclude_clouds_with_lan_links,no_lan} ...]]]
 
 This Script generates a hierarchical nodes list for node migration using nginx
 geo feature.
@@ -49,7 +49,7 @@ optional arguments:
   -o OUT_FILE, --out-file OUT_FILE
                         Filename where the generated Output should stored.
   -v, --debug           Enable debugging output.
-  -f [FILTERS [FILTERS ...]], --filters [FILTERS [FILTERS ...]]
+  -f [{exclude_clouds_with_lan_links,no_lan} [{exclude_clouds_with_lan_links,no_lan} ...]], --filters [{exclude_clouds_with_lan_links,no_lan} [{exclude_clouds_with_lan_links,no_lan} ...]]
                         Filter out nodes and local clouds based on filter
                         rules
 ```
