@@ -71,7 +71,7 @@ class NodeHierarchy(object):
         parser.add_argument('-t', '--targets', nargs='+', required=True, help='List of targets which should be proceeded. Example: -t citya cityb ...')
         parser.add_argument('-o', '--out-file', required=False, help='Filename where the generated Output should stored.', default='./webserver-configuration')
         parser.add_argument('-v', '--debug', required=False, action='store_true', help='Enable debugging output.')
-        parser.add_argument('-f', '--filters', nargs='*', required=False, help='Filter out nodes and local clouds based on filter rules')
+        parser.add_argument('-f', '--filters', nargs='*', required=False, choices=('exclude_clouds_with_lan_links', 'no_lan'), help='Filter out nodes and local clouds based on filter rules')
         
         return parser.parse_args()
 
