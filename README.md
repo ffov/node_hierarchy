@@ -1,10 +1,11 @@
 # Node Hierarchy
-Dieses Tool generiert auf Basis einer graph.json und nodes.json des [Meshviewers](https://github.com/ffnord/meshviewer/) sowie (Multi-)Polygonen (im [geojson](http://geojson.org/) Format) der einzelnen Zieldomänen eine [nginx](http://nginx.org/) Konfigurationsdatei (auf Basis des [Geo-Moduls](http://nginx.org/en/docs/http/ngx_http_geo_module.html)), um Knoten in der richtigen Reihenfolge umzuziehen.
+Dieses Tool generiert auf Basis einer ``graph.json`` und ``nodes.json`` des [Meshviewers](https://github.com/ffnord/meshviewer/) sowie (Multi-)Polygonen (im [geojson](http://geojson.org/) Format) der einzelnen Zieldomänen eine [nginx](http://nginx.org/) Konfigurationsdatei (auf Basis des [Geo-Moduls](http://nginx.org/en/docs/http/ngx_http_geo_module.html)), um Knoten in der richtigen Reihenfolge umzuziehen.
 
 
 ## Vorgehensweise
-Das Tool zerteilt den (globalen) Graphen in viele lokale Graphen, also die Menge an Knoten (und Links), die vor Ort ein Mesh bilden. Diese werden auf Basis der Shapefiles den einzelnen Zieldomänen zugeordnet (es werden die GeoPositionen der einzelnen Knoten "gemittelt"). Hier wird nun geprüft, welche Knoten keine Abhängigkeiten besitzen, also kein anderer Knoten über diesen Knoten gehen muss um einen Gatewayserver zu erreichen. Diese werden dann in die Konfiguration geschrieben. Sind diese Knoten aktualisiert, fällt die Abhängigkeit des Knoten weg, der zuvor benötigt wurde um das Gateway zu erreichen. 
-Daher muss das Tool regelmäßig ausgeführt werden und die Ausgabe jeweils in die nginx Konfiguration übernommen werden.
+Das Tool zerteilt den (globalen) Graphen in viele lokale Graphen, also die Menge an Knoten (und Links), die vor Ort ein Mesh bilden. Diese werden auf Basis der Shapefiles den einzelnen Zieldomänen zugeordnet (es werden die Geopositionen der einzelnen Knoten "gemittelt"). Hier wird nun geprüft, welche Knoten keine Abhängigkeiten besitzen, also kein anderer Knoten über diesen Knoten gehen muss, um einen Gatewayserver zu erreichen. Diese werden dann in die Konfiguration geschrieben.
+
+Sind diese Knoten aktualisiert, fällt die Abhängigkeit des Knoten weg, der zuvor benötigt wurde, um das Gateway zu erreichen. Daher muss das Tool regelmäßig ausgeführt und die Ausgabe jeweils in die nginx-Konfiguration übernommen werden.
 
 
 ## Abhängigkeiten
@@ -56,7 +57,7 @@ optional arguments:
 
 ### Anmerkungen
 
-- ``--targets`` Gibt die Namen der Ziele (Zieldomänen) an. Der Geo-Schalter in der nginx Konfiguration wird ebenfalls diesen Namen tragen. 
+- ``--targets`` Gibt die Namen der Ziele (Zieldomänen) an. Der Geo-Schalter in der nginx-Konfiguration wird ebenfalls diesen Namen tragen.
 - ``--json-path`` Gibt das Daten-Verzeichnis eures Meshviewers an. Default: ``https://service.freifunk-muensterland.de/maps/data/``
 - ``--shapes-path`` Verzeichnis an dem die Shapefiles der einzelnen Ziel-Domänen liegen. Default: ``https://freifunk-muensterland.de/md-fw-dl/shapes/``
   - *Anmerkung:* Es werden Dateien in Abhängigkeit mit den Target-Namen im Verzeichnis erwartet.
@@ -68,8 +69,7 @@ Der Rest ist trivial.
 
 
 ### Filter
-Standardmäßig werden alle Knoten ausgefiltert, die offline sind.
-Außerdem werden alle lokalen Wolken ausgefiltert, in denen sich mindstens ein Knoten mit deaktiviertem Autoupdater befindet.
+Standardmäßig werden alle Knoten ausgefiltert, die offline sind. Außerdem werden alle lokalen Wolken ausgefiltert, in denen sich mindstens ein Knoten mit deaktiviertem Autoupdater befindet.
 
 Weitere Filterungen lassen sich über das ``--filters`` Attribut aktivieren.
 
@@ -79,7 +79,7 @@ Folgende Filter sind derzeit implementiert (zukünftig folgen noch weitere):
 
 
 ## Nginx Konfiguration
-Das Tool generiert nur Konfigurationscode, der Schalter auf basis von IPv6 Adressen beinhaltet. Die Auswirkungen, die diese Schalter haben sollen müsst ihr noch selbst definieren. Typischerweise möchte man auf Basis der Schalter einen Rewrite machen.
+Das Tool generiert nur Konfigurationscode, der Schalter auf Basis von IPv6-Adressen beinhaltet. Die Auswirkungen, die diese Schalter haben sollen, müsst ihr noch selbst definieren. Typischerweise möchte man auf Basis der Schalter einen Rewrite machen.
 
 Beispiel:
 
@@ -93,9 +93,9 @@ if ($domaene01) {
 
 
 ## Bekannte Probleme
-Wenn es sich bei der Quell-Domäne um eine L2TP Domäne handelt, läuft das Tool derzeit nur, wenn [alfred](https://github.com/ffnord/ffnord-alfred-announce) auf allen Gateway-Servern läuft.
+Wenn es sich bei der Quell-Domäne um eine L2TP-Domäne handelt, läuft das Tool derzeit nur, wenn [alfred](https://github.com/ffnord/ffnord-alfred-announce) auf allen Gateway-Servern läuft.
 
-*Anmerkung:* Wenn in der ``nodes.json`` und ``graph.json`` mehrere Domänen vorhanden sind und dort teilweise L2TP Domänen vorhanden sind (dieses aber nicht das Gebiet eurer Zieldomäne betrifft), kann das sehr negative Auswirkungen auf die Laufzeit haben (> 30 Sekunden).
+*Anmerkung:* Wenn in der ``nodes.json`` und ``graph.json`` mehrere Domänen vorhanden sind und dort teilweise L2TP-Domänen vorhanden sind (dieses aber nicht das Gebiet eurer Zieldomäne betrifft), kann das sehr negative Auswirkungen auf die Laufzeit haben (> 30 Sekunden).
 
 
 ## Lizenz
