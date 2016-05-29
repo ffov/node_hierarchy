@@ -31,6 +31,7 @@ class NginxConfGen(object):
         f = open(self.__args__.out_file,'w')
         f.write(self.__genNginxConfigFileContent__())
         f.close()
+        print('Nginx configfile has been created. You can find it at:', self.__args__.out_file)
         
     def __genNginxConfigFileContent__(self):
         content = ''
