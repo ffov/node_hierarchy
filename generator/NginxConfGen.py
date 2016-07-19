@@ -1,5 +1,7 @@
 from exceptions.HieraException import HieraException
 from generator.Filter import Filter
+from collections import OrderedDict
+
 class NginxConfGen(object):
     def __init__(self, domains, args):
         self.__domains__ = domains
@@ -35,9 +37,9 @@ class NginxConfGen(object):
         
     def __genNginxConfigFileContent__(self):
         content = ''
-        for k, v in self.__generatedDomains__.items():
+        for k, v in OrderedDict(sorted(self.__generatedDomains__.items())).items():
             content += 'geo $' + k + ' {\n  default 0;'
-            for ksub, vsub in v.items():
+            for ksub, vsub in OrderedDict(sorted(v.items())).items():
                 for address in vsub['ipv6_addresses']:
                     content += '\n  ' + address + ' 1; #' + vsub['hostname'] 
             content += '\n}\n'
