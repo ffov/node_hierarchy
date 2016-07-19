@@ -8,15 +8,32 @@ class Link(object):
         
         
     def __getLinkType__(self):
+        type_src = None
+        type_dst = None
         if self.__srcNode__ != None:
             for k, v in self.__srcNode__.interfaces.items():
                 if self.__jsonObject__['source']['interface_mac'] in v:
-                    return k
+                    type_src = k
         if self.__dstNode__ != None:
             for k, v in self.__dstNode__.interfaces.items():
                 if self.__jsonObject__['target']['interface_mac'] in v:
-                    return k
-        return 'unknown'
+                    type_dst = k
+                    
+        if type_src == type_dst:
+            if type_src == None:
+                return 'unknown'
+            return type_src
+        else:
+            if type_src == None:
+                return type_dst
+            elif type_dst == None:
+                return type_src
+            else:
+                #print(self.__srcNode__.hostname, type_src, '<-->', self.__dstNode__.hostname, type_dst)
+                if type_src == 'wireless':
+                    return type_dst
+                else:
+                    return type_src
         
     def __getLinkVpnState__(self):
         if self.__jsonObject__['vpn'] == True:
