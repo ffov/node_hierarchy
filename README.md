@@ -124,7 +124,7 @@ Gibt Informationen zu Knoten aus, die offline sind. Dazu gibt es die folgenden b
    
 Der Beispielaufruf 
 
-``$ ./NodeHierarchy.py -t domaene01 -i get_offline_nodes -i -if max_age:2w min_age:1d``
+``$ ./NodeHierarchy.py -t domaene01 -i get_offline_nodes -if max_age:2w min_age:1d``
 
 schreibt in die Datei ``./offline_nodes.csv`` (default-Einstellung der Schalter ``-iop`` und ``-iot``) Informationen zu Knoten die länger als einen Tag aber kürzer als zwei Wochen offline sind (im CSV-Format).
 
