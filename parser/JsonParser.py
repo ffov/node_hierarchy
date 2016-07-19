@@ -11,15 +11,20 @@ class JsonParser(object):
             if self.printStatus:
                 print('Download', fileName.rsplit('/', 1)[1] , 'from URL:', fileName)
             resource = urllib.request.urlopen(fileName)
+            try:
+                data = json.loads(resource.read().decode('utf-8'))
+            except:
+                raise HieraException('Error while parsing a json file (perhapes misformed file): ' + fileName)
+            finally:
+                resource.close()
         else:
             if self.printStatus:
                 print('Open', fileName.rsplit('/', 1)[1] , 'from file:', fileName)
-            resource = open(fileName)
-        try:
-            data = json.loads(resource.read().decode('utf-8'))
-        except:
-            raise HieraException('Error while parsing a json file (perhapes misformed file): ' + fileName)
-        finally:
-            resource.close()
+            with open(fileName) as data_file:  
+                try:  
+                    data = json.load(data_file)
+                except:
+                    raise HieraException('Error while parsing a json file (perhapes misformed file): ' + fileName)
+
     
         return data
