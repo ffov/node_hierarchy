@@ -31,6 +31,10 @@ $ ./NodeHierarchy.py --help
 usage: NodeHierarchy.py [-h] [-j JSON_PATH] [-s SHAPES_PATH] -t TARGETS
                         [TARGETS ...] [-o OUT_FILE] [-v]
                         [-f [{exclude_clouds_with_lan_links,no_lan} [{exclude_clouds_with_lan_links,no_lan} ...]]]
+                        [-i [{get_offline_nodes,offline} [{get_offline_nodes,offline} ...]]]
+                        [-if [INFO_FILTERS [INFO_FILTERS ...]]]
+                        [-iop INFO_OUT_PATH]
+                        [-iot {json,csv} [{json,csv} ...]]
 
 This Script generates a hierarchical nodes list for node migration using nginx
 geo feature.
@@ -51,7 +55,17 @@ optional arguments:
   -v, --debug           Enable debugging output.
   -f [{exclude_clouds_with_lan_links,no_lan} [{exclude_clouds_with_lan_links,no_lan} ...]], --filters [{exclude_clouds_with_lan_links,no_lan} [{exclude_clouds_with_lan_links,no_lan} ...]]
                         Filter out nodes and local clouds based on filter
-                        rules
+                        rules.
+  -i [{get_offline_nodes,offline} [{get_offline_nodes,offline} ...]], --info [{get_offline_nodes,offline} [{get_offline_nodes,offline} ...]]
+                        Get infos about the graph, links and nodes.
+  -if [INFO_FILTERS [INFO_FILTERS ...]], --info-filters [INFO_FILTERS [INFO_FILTERS ...]]
+                        Filter info results. Currently supported:
+                        min_age:TIME_RANGE, max_age:TIME_RANGE. Examples: -if
+                        min_age:1d max_age:2w
+  -iop INFO_OUT_PATH, --info-out-path INFO_OUT_PATH
+                        Folder where info files should be written. Default: ./
+  -iot {json,csv} [{json,csv} ...], --info-out-type {json,csv} [{json,csv} ...]
+                        Defines the format of info output. Default: csv
 ```
 
 
@@ -90,6 +104,29 @@ if ($domaene01) {
 ```
 
 *Anmerkung:* Bei $domane01 handelt es sich um den generierten Schalter, entspricht also ``--targets domaene01``.
+
+
+## Info-Modul
+Über das Info-Modul ist es möglich Informationen über Knoten, Links, Graphen und Domänen zu erstellen. Diese Informationen können entweder in ``csv``-Dateien oder in ``json``-Dateien gespeichert werden. Derzeit ist nur das Modul ``get_offline_nodes`` verfügbar. Zusätzlich lassen sich an das Info-Modul Filter übergeben.
+
+### Offline-Knoten
+Gibt Informationen zu Knoten aus, die offline sind. Dazu gibt es die folgenden beiden Filter:
+
+ - ``min_age:TIME_RANGE``: Knoten, die eine kürzere Zeit als die angegebene Zeit offline sind, werden ignoriert.
+ - ``max_age:TIME_RANGE``: Knoten, die eine längere Zeit als die angegebene Zeit offline sind, werden ignoriert.
+ 
+ Dabei setzt sich ``TIME_RANGE`` aus zwei Teilen zusammen:
+ - (Integer) Wert
+ - Einheit:
+   - ``d``, ``day`` oder ``days``: Der Wert wird als eine Anzahl von Tagen interpretiert.
+   - ``w``, ``week`` oder ``weeks``: Der Wert wird als eine Anzahl von Wochen interpretiert.
+   - ``m``, ``month`` oder ``months``: Der Wert wird als eine Anzahl von Monaten (30 Tage) interpretiert.
+   
+Der Beispielaufruf 
+
+``$ ./NodeHierarchy.py -t domaene01 -i get_offline_nodes -i -if max_age:2w min_age:1d``
+
+schreibt in die Datei ``./offline_nodes.csv`` (default-Einstellung der Schalter ``-iop`` und ``-iot``) Informationen zu Knoten die länger als einen Tag aber kürzer als zwei Wochen offline sind (im CSV-Format).
 
 
 ## Bekannte Probleme
