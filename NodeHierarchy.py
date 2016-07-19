@@ -8,6 +8,7 @@ from cloud.GlobalGraph import GlobalGraph
 from parser.ShapesParser import ShapesParser
 from cloud.Domaene import Domaene
 from generator.NginxConfGen import NginxConfGen
+from info.Info import Info
 
 class NodeHierarchy(object):
     def __init__(self):
@@ -21,6 +22,7 @@ class NodeHierarchy(object):
         self.domains = self.__createDomains__()
         self.nginxConf = NginxConfGen(self.domains, self.__args__)
         self.nginxConf.writeNginxConfigFile()
+        self.infos = Info(self.__args__.info, self.__args__.info_out_path, self.__args__.info_out_type, self.__args__.info_filters, self.nodes, self.globalGraph, self.domains)
 
     def __parseShapes__(self):
         shapesJson = {}
@@ -69,10 +71,12 @@ class NodeHierarchy(object):
         parser.add_argument('-j', '--json-path', required=False, default='https://service.freifunk-muensterland.de/maps/data/', help='Path of nodes.json and graph.json (can be local folder or remote URL).')
         parser.add_argument('-s', '--shapes-path', required=False, default='https://freifunk-muensterland.de/md-fw-dl/shapes/', help='Path of shapefiles (can be local folder or remote URL).')
         parser.add_argument('-t', '--targets', nargs='+', required=True, help='List of targets which should be proceeded. Example: -t citya cityb ...')
-        parser.add_argument('-o', '--out-file', required=False, help='Filename where the generated Output should stored.', default='./webserver-configuration')
+        parser.add_argument('-o', '--out-file', default='./webserver-configuration', required=False, help='Filename where the generated Output should stored.')
         parser.add_argument('-v', '--debug', required=False, action='store_true', help='Enable debugging output.')
-        parser.add_argument('-f', '--filters', nargs='*', required=False, choices=('exclude_clouds_with_lan_links', 'no_lan'), help='Filter out nodes and local clouds based on filter rules')
-        
+        parser.add_argument('-f', '--filters', nargs='*', required=False, choices=('exclude_clouds_with_lan_links', 'no_lan'), help='Filter out nodes and local clouds based on filter rules.')
+        parser.add_argument('-i', '--info', nargs='*', required=False, choices=('get_offline_nodes','offline'), help='Get infos about the graph, links and nodes.')
+        parser.add_argument('-if', '--info-filters', nargs='*', required=False, help='Filter info results. Currently supported: min_age:TIME_RANGE, max_age:TIME_RANGE. Examples: -if min_age:1d max_age:2w')
+        parser.add_argument('-iop', '--info-out-path', required=False, default='./', help='Folder where info files should be written. Default: ./')
+        parser.add_argument('-iot', '--info-out-type', nargs='+', required=False, default='csv', choices=('json', 'csv'), help='Defines the format of info output. Default: csv')
         return parser.parse_args()
-
 NodeHierarchy()
