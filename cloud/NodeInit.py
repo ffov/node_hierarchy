@@ -4,11 +4,11 @@ class NodeInit(object):
         self.nodeID = self.__jsonObject__['nodeinfo']['node_id']
         self.interfaces = self.__getInterfaces__()
         self.hostname = self.__jsonObject__['nodeinfo']['hostname']
-        self.isGateway = self.__jsonObject__['flags']['gateway']
+        self.isGateway = self.__jsonObject__['nodeinfo']['isGateway']
         self.geo = self.__getGeo__()
         self.isAutoupdaterEnabled = self.__getAutoupdaterStatus__()
         self.autoupdaterBranch = self.__getBranch__()
-        self.isOnline = self.__jsonObject__['flags']['online']
+        self.isOnline = self.__jsonObject__['nodeinfo']['isOnline']
         self.publicIPv6Addresses = self.__getPublicAddresses__()
         self.domID = self.__getSiteCode__()
         
@@ -25,10 +25,7 @@ class NodeInit(object):
             return False
 
     def __getBranch__(self):
-        if 'autoupdater' in self.__jsonObject__['nodeinfo']['software']:
-            return self.__jsonObject__['nodeinfo']['software']['autoupdater']['branch']
-        else:
-            return None
+        return self.__jsonObject__.get('nodeinfo', {}).get('software', {}).get('autoupdater', {}).get('branch', None)
 
     def __getGeo__(self):
         geo = {}

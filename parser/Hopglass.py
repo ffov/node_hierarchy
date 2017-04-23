@@ -8,6 +8,8 @@ class Hopglass(JsonParser):
         self.ifIDs = {}
         self.links = collections.defaultdict(dict)
         self.nodes = {}
+        self.gatewayMacs = []
+        self.gateways = []
         self.__aggregateData__()
         #print(self.ifIDs)
         for k, v in self.links.items():
@@ -17,17 +19,21 @@ class Hopglass(JsonParser):
         for nodeID, nodeData in self.__jsonData__.items():
 
             # let pass nodes that provide all required informations only
-            if not set(('nodeinfo', 'neighbours')) <= set(nodeData):
+            if not set(('nodeinfo', 'neighbours', 'statistics')) <= set(nodeData):
                 continue
 
             nodeInfo = nodeData['nodeinfo']
             neighbours = nodeData['neighbours']
+            statistics = nodeData['statistics']
 
             if not 'batadv' in neighbours:
                 continue
 
             if not 'mesh' in nodeInfo.get('network', {}):
                 continue
+
+            if statistics.get('gateway', False):
+                self.gatewayMacs.append(statistics['gateway'])
 
             for batID, batVal in nodeInfo['network']['mesh'].items():
                 if not 'interfaces' in batVal:
@@ -42,9 +48,13 @@ class Hopglass(JsonParser):
             self.nodes[nodeID] = nodeData
 
         for nodeID, nodeData in self.nodes.items():
+            nodeData['nodeinfo']['isGateway'] = False
+            nodeData['nodeinfo']['isOnline'] = True # Todo: implement detection
             for iname, ivalue in nodeData['neighbours']['batadv'].items():
                 if 'neighbours' not in ivalue:
                     continue
+                if iname in self.gatewayMacs:
+                    nodeData['nodeinfo']['isGateway'] = True
                 if not iname in self.ifIDs:
                     continue
                 for nname, nvalue in ivalue['neighbours'].items():
