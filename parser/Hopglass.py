@@ -1,0 +1,74 @@
+from parser.JsonParser import JsonParser
+import collections
+import json
+
+class Hopglass(JsonParser):
+    def __init__(self, filePath):
+        super().__init__(filePath)
+        self.ifIDs = {}
+        self.links = collections.defaultdict(dict)
+        self.nodes = {}
+        self.__aggregateData__()
+        #print(self.ifIDs)
+        for k, v in self.links.items():
+            print(k,v,'\n')
+        
+    def __aggregateData__(self):
+        for nodeID, nodeData in self.__jsonData__.items():
+
+            # let pass nodes that provide all required informations only
+            if not set(('nodeinfo', 'neighbours')) <= set(nodeData):
+                continue
+
+            nodeInfo = nodeData['nodeinfo']
+            neighbours = nodeData['neighbours']
+
+            if not 'batadv' in neighbours:
+                continue
+
+            if not 'mesh' in nodeInfo.get('network', {}):
+                continue
+
+            for batID, batVal in nodeInfo['network']['mesh'].items():
+                if not 'interfaces' in batVal:
+                    continue
+                for ifType, ifVal in batVal['interfaces'].items():
+                    for mac in ifVal:
+                        self.ifIDs[mac] = {
+                                'type' : ifType,
+                                'nodeID' : nodeID
+                            }
+
+            self.nodes[nodeID] = nodeData
+
+        for nodeID, nodeData in self.nodes.items():
+            for iname, ivalue in nodeData['neighbours']['batadv'].items():
+                if 'neighbours' not in ivalue:
+                    continue
+                if not iname in self.ifIDs:
+                    continue
+                for nname, nvalue in ivalue['neighbours'].items():
+                    if nname not in self.ifIDs:
+                        continue
+                    nifID = self.ifIDs[nname]['nodeID']
+                    partID = (nodeID, nifID) if nodeID > nifID else (nifID, nodeID)
+                    linkID = (iname, nname) if iname > nname else (nname, iname)
+
+                    linkNode =  {
+                                    'nodeID' : nodeID,
+                                    'type' : self.ifIDs[iname]['type'],
+                                    'tq' : nvalue['tq']
+                                }
+
+                    if linkID in self.links[partID]:
+                        self.links[partID][linkID].append(linkNode)
+                    else:
+                        self.links[partID][linkID] = [linkNode]
+    
+    
+    def getLinksForNodeID(self, nodeID):
+        links = []
+        for link in self.links:
+            if link['target']['node_id'] == nodeID or link['source']['node_id'] == nodeID:
+                links.append(link)
+        return links

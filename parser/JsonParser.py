@@ -9,7 +9,7 @@ class JsonParser(object):
     def __getFile__(self, fileName):
         if fileName.startswith('https://') or fileName.startswith('http://'):
             if self.printStatus:
-                print('Download', fileName.rsplit('/', 1)[1] , 'from URL:', fileName)
+                print('Download', fileName, 'from URL:', fileName)
             resource = urllib.request.urlopen(fileName)
             try:
                 data = json.loads(resource.read().decode('utf-8'))
@@ -19,7 +19,7 @@ class JsonParser(object):
                 resource.close()
         else:
             if self.printStatus:
-                print('Open', fileName.rsplit('/', 1)[1] , 'from file:', fileName)
+                print('Open', fileName, 'from file:', fileName)
             with open(fileName) as data_file:  
                 try:  
                     data = json.load(data_file)

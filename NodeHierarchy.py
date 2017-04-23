@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 import argparse
-from parser.NodesParser import NodesParser
-from parser.GraphParser import GraphParser
+# from parser.NodesParser import NodesParser
+# from parser.GraphParser import GraphParser
+from parser.Hopglass import Hopglass
 from cloud.Node import Node
 from cloud.Link import Link
 from cloud.GlobalGraph import GlobalGraph
@@ -13,8 +14,9 @@ from info.Info import Info
 class NodeHierarchy(object):
     def __init__(self):
         self.__args__ = self.__parseArguments__()
-        self.__nodesJson__ = NodesParser(self.__args__.json_path)
-        self.__graphJson__ = GraphParser(self.__args__.json_path)
+        self.__hopglass = Hopglass(self.__args__.raw_json)
+        # self.__nodesJson__ = NodesParser(self.__args__.json_path)
+        # self.__graphJson__ = GraphParser(self.__args__.json_path)
         self.__shapesJson__ = self.__parseShapes__()
         self.nodes = self.__createNodeObjects__()
         self.links = self.__createLinkObjects__()
@@ -48,7 +50,7 @@ class NodeHierarchy(object):
     
     def __createLinkObjects__(self):
         links = []
-        for link in self.__graphJson__.links:
+        for link in self.__hopglass.links:
             try:
                 srcNode = self.nodes[link['source']['node_id']]
             except:
@@ -68,7 +70,7 @@ class NodeHierarchy(object):
 
     def __parseArguments__(self):
         parser = argparse.ArgumentParser(description='This Script generates a hierarchical nodes list for node migration using nginx geo feature.')
-        parser.add_argument('-j', '--json-path', required=False, default='https://service.freifunk-muensterland.de/maps/data/', help='Path of nodes.json and graph.json (can be local folder or remote URL).')
+        parser.add_argument('-r', '--raw-json', required=False, default='https://karte.freifunk-muensterland.de/data/raw.json', help='Location of raw.json file (can be local folder or remote URL).')
         parser.add_argument('-s', '--shapes-path', required=False, default='https://freifunk-muensterland.de/md-fw-dl/shapes/', help='Path of shapefiles (can be local folder or remote URL).')
         parser.add_argument('-t', '--targets', nargs='+', required=True, help='List of targets which should be proceeded. Example: -t citya cityb ...')
         parser.add_argument('-o', '--out-file', default='./webserver-configuration', required=False, help='Filename where the generated Output should stored.')
