@@ -125,6 +125,9 @@ class LocalGraph(Graph):
         print('BranchesThatExistsInCloud:', self.getBranchesThatExistsInCloud())
         print('lan links in cloud:')
         for link in self.getLanLinksInCloud():
-            if link.__srcNode__ != None and link.__dstNode__ != None:
-                print(' ', link.__srcNode__.hostname, '<--->', link.__dstNode__.hostname)
+            hosts = link.getEndpointNodes()
+            if len(hosts) == 1:
+                print(' ', hosts.hostname, 'has unknown neighbour.')
+            else:
+                print(' ', hosts[0].hostname, '<--->', hosts[1].hostname)
         print('=====')

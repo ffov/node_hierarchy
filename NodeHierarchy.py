@@ -50,18 +50,10 @@ class NodeHierarchy(object):
     
     def __createLinkObjects__(self):
         links = []
-        for link in self.__hopglass.links:
-            try:
-                srcNode = self.nodes[link['source']['node_id']]
-            except:
-                srcNode = None
-            try:
-                dstNode = self.nodes[link['target']['node_id']]
-            except:
-                dstNode = None
-            
-            print('Create Link object #',len(links), '\r',end = '')
-            links.append(Link(link, srcNode, dstNode))
+        for linkParID, linkPar in self.__hopglass.links.items():
+            for linkID, link in linkPar.items():
+                print('Create Link object #',len(links), '\r',end = '')
+                links.append(Link(link, (self.nodes[linkParID[0]], self.nodes[linkParID[1]])))
         print('')
         return links
             

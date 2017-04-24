@@ -11,9 +11,9 @@ class Hopglass(JsonParser):
         self.gatewayMacs = []
         self.gateways = []
         self.__aggregateData__()
-        #print(self.ifIDs)
-        for k, v in self.links.items():
-            print(k,v,'\n')
+        # print(self.ifIDs)
+        # for k, v in self.links.items():
+        #     print(k,v,'\n')
         
     def __aggregateData__(self):
         for nodeID, nodeData in self.__jsonData__.items():
