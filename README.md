@@ -28,7 +28,7 @@ Die Hilfe liefert folgendes:
 
 ```
 $ ./NodeHierarchy.py --help
-usage: NodeHierarchy.py [-h] [-j JSON_PATH] [-s SHAPES_PATH] -t TARGETS
+usage: NodeHierarchy.py [-h] [-r RAW_JSON] [-s SHAPES_PATH] -t TARGETS
                         [TARGETS ...] [-o OUT_FILE] [-v]
                         [-f [{exclude_clouds_with_lan_links,no_lan} [{exclude_clouds_with_lan_links,no_lan} ...]]]
                         [-i [{get_offline_nodes,offline} [{get_offline_nodes,offline} ...]]]
@@ -41,9 +41,10 @@ geo feature.
 
 optional arguments:
   -h, --help            show this help message and exit
-  -j JSON_PATH, --json-path JSON_PATH
-                        Path of nodes.json and graph.json (can be local folder
-                        or remote URL).
+  -r RAW_JSON, --raw-json RAW_JSON
+                        Location of raw.json file (can be local folder or
+                        remote URL). Default: https://karte.freifunk-
+                        muensterland.de/data/raw.json
   -s SHAPES_PATH, --shapes-path SHAPES_PATH
                         Path of shapefiles (can be local folder or remote
                         URL).
@@ -72,7 +73,7 @@ optional arguments:
 ### Anmerkungen
 
 - ``--targets`` Gibt die Namen der Ziele (Zieldomänen) an. Der Geo-Schalter in der nginx-Konfiguration wird ebenfalls diesen Namen tragen.
-- ``--json-path`` Gibt das Daten-Verzeichnis eures Meshviewers an. Default: ``https://service.freifunk-muensterland.de/maps/data/``
+- ``--raw-json`` Gibt den Ort der raw.json (hopglass-server) an. Default: ``https://karte.freifunk-muensterland.de/data/raw.json``
 - ``--shapes-path`` Verzeichnis an dem die Shapefiles der einzelnen Ziel-Domänen liegen. Default: ``https://freifunk-muensterland.de/md-fw-dl/shapes/``
   - *Anmerkung:* Es werden Dateien in Abhängigkeit mit den Target-Namen im Verzeichnis erwartet.
   - *Beispiel:* Bei ``-targets domaene01 domaene02`` werden die Dateien ``domaene01.geojson`` und ``domaene02.geojson`` erwartet.
