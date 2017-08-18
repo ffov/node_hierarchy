@@ -54,7 +54,8 @@ class NodeHierarchy(object):
         for linkParID, linkPar in self.__hopglass.links.items():
             for linkID, link in linkPar.items():
                 print('Create Link object #',len(links), '\r',end = '')
-                links.append(Link(link, (self.nodes[linkParID[0]], self.nodes[linkParID[1]])))
+                if linkParID[0] != 'null' and linkParID[1] != 'null':
+                    links.append(Link(link, (self.nodes[linkParID[0]], self.nodes[linkParID[1]])))
         print('')
         return links
             
