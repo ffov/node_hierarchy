@@ -19,13 +19,16 @@ class NodeInit(object):
             return {}
 
     def __getAutoupdaterStatus__(self):
-        if 'autoupdater' in self.__jsonObject__['nodeinfo']['software']:
+        try:
             return self.__jsonObject__['nodeinfo']['software']['autoupdater']['enabled']
-        else:
+        except:
             return False
 
     def __getBranch__(self):
-        return self.__jsonObject__.get('nodeinfo', {}).get('software', {}).get('autoupdater', {}).get('branch', None)
+        try:
+            return self.__jsonObject__['nodeinfo']['software']['autoupdater']['branch']
+        except:
+            return None
 
     def __getGeo__(self):
         geo = {}

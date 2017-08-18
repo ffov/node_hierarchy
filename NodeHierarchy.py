@@ -43,8 +43,9 @@ class NodeHierarchy(object):
     def __createNodeObjects__(self):
         nodes = {}
         for nodeID, nodeValue in self.__hopglass.nodes.items():
-            print('Create Node object #',len(nodes), '\r',end = '')
-            nodes[nodeID] = Node(nodeValue)
+            if nodeValue['nodeinfo']['node_id']:
+                print('Create Node object #',len(nodes), '\r',end = '')
+                nodes[nodeID] = Node(nodeValue)
         print('')
         return nodes
     

@@ -26,7 +26,7 @@ class Graph(object):
             if link.isVpn == False:
                 endpoints = link.getEndpointNodeIDs(getGateways = False)
                 if nodeID in endpoints:
-                    neighNodeIDs = neighNodeIDs + [x for x in endpoints if x not in neighNodeIDs]
+                    neighNodeIDs = list(set(neighNodeIDs + endpoints))
         return neighNodeIDs
     
     def getLinksByNodeID(self, nodeID):

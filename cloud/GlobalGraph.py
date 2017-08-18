@@ -26,18 +26,19 @@ class GlobalGraph(Graph):
 
     def __getConnectedNodes__(self, nodeID, trace = []):
         neighNodeIDs = self.getNeighbourNodeIDsForNodeID(nodeID)
-        trace_new = trace[:] + [x for x in neighNodeIDs if x not in trace]
+        trace_new = list(set(trace + neighNodeIDs))
         for neighNodeID in neighNodeIDs:
             if neighNodeID not in trace:
-                trace_new = trace_new + [x for x in self.__getConnectedNodes__(neighNodeID, trace_new) if x not in trace_new]
+                trace_new = list(set(trace_new + self.__getConnectedNodes__(neighNodeID, trace_new)))
         return trace_new
 
     def __createLocalCloudByNodesList__(self, nodesIDList):
         nodes = {}
         links = []
         for nodeID in nodesIDList:
-            nodes[nodeID] = self.__nodes__[nodeID]
-            links = links + [x for x in self.getLinksByNodeID(nodeID) if x not in links]
+            if nodeID:
+                nodes[nodeID] = self.__nodes__[nodeID]
+                links = list(set(links + self.getLinksByNodeID(nodeID)))
         return LocalGraph(nodes, links, self.__enableDebugPrinting__)
 
     def __debugPrint__(self):
