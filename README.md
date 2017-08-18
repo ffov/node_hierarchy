@@ -1,5 +1,5 @@
 # Node Hierarchy
-Dieses Tool generiert auf Basis einer ``graph.json`` und ``nodes.json`` des [Meshviewers](https://github.com/ffnord/meshviewer/) sowie (Multi-)Polygonen (im [geojson](http://geojson.org/) Format) der einzelnen Zieldomänen eine [nginx](http://nginx.org/) Konfigurationsdatei (auf Basis des [Geo-Moduls](http://nginx.org/en/docs/http/ngx_http_geo_module.html)), um Knoten in der richtigen Reihenfolge umzuziehen.
+Dieses Tool generiert auf Basis einer ``raw.json`` des [hopglass-server](https://github.com/hopglass/hopglass-server) sowie (Multi-)Polygonen (im [geojson](http://geojson.org/) Format) der einzelnen Zieldomänen eine [nginx](http://nginx.org/) Konfigurationsdatei (auf Basis des [Geo-Moduls](http://nginx.org/en/docs/http/ngx_http_geo_module.html)), um Knoten in der richtigen Reihenfolge umzuziehen.
 
 
 ## Vorgehensweise
@@ -131,9 +131,9 @@ schreibt in die Datei ``./offline_nodes.csv`` (default-Einstellung der Schalter 
 
 
 ## Bekannte Probleme
-Wenn es sich bei der Quell-Domäne um eine L2TP-Domäne handelt, läuft das Tool derzeit nur, wenn [alfred](https://github.com/ffnord/ffnord-alfred-announce) auf allen Gateway-Servern läuft.
+Wenn es sich bei der Quell-Domäne um eine L2TP-Domäne handelt, läuft das Tool derzeit nur, wenn [alfred](https://github.com/ffnord/ffnord-alfred-announce) oder respondd auf allen Gateway-Servern läuft.
 
-*Anmerkung:* Wenn in der ``nodes.json`` und ``graph.json`` mehrere Domänen vorhanden sind und dort teilweise L2TP-Domänen vorhanden sind (dieses aber nicht das Gebiet eurer Zieldomäne betrifft), kann das sehr negative Auswirkungen auf die Laufzeit haben (> 30 Sekunden).
+*Anmerkung:* Wenn in der ``graph.json`` mehrere Domänen vorhanden sind und dort teilweise L2TP-Domänen vorhanden sind (dieses aber nicht das Gebiet eurer Zieldomäne betrifft), kann das sehr negative Auswirkungen auf die Laufzeit haben (> 30 Sekunden).
 
 
 ## Lizenz
