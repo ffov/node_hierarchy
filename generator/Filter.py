@@ -3,7 +3,7 @@ class Filter(object):
         self.__args__ = args
         self.__filters__ = self.__getFilters()
         
-    def filterLocalGraphs(self, localGraphs):
+    def filterLocalGraphs(self, domain, localGraphs):
         filteredGraphs = []
         for localGraph in localGraphs:
             if localGraph.isAutoupdaterEnabledOnAllNodes() == False:
@@ -21,8 +21,14 @@ class Filter(object):
     def __getFilters(self):
         return [] if self.__args__.filters == None else self.__args__.filters
     
-    def filterNodes(self, nodes):
+    def filterNodes(self, domain, nodes):
         filteredNodes = []
         for node in nodes:
+            if 'domain_transitions_only' in self.__filters__:
+                try:
+                    if domain.name == node.domName:
+                        continue
+                except:
+                    pass
             filteredNodes.append(node)
         return filteredNodes

@@ -10,7 +10,7 @@ class NodeInit(object):
         self.autoupdaterBranch = self.__getBranch__()
         self.isOnline = self.__jsonObject__['nodeinfo']['isOnline']
         self.publicIPv6Addresses = self.__getPublicAddresses__()
-        self.domID = self.__getSiteCode__()
+        self.domName = self.__getSiteCode__()
         
     def __getInterfaces__(self):
         try:
@@ -31,19 +31,22 @@ class NodeInit(object):
             return None
 
     def __getGeo__(self):
-        geo = {}
-        if 'location' in self.__jsonObject__['nodeinfo'] and 'latitude' in self.__jsonObject__['nodeinfo']['location'] and 'longitude' in self.__jsonObject__['nodeinfo']['location']:
-            geo['lat'] = self.__jsonObject__['nodeinfo']['location']['latitude']
-            geo['lon'] = self.__jsonObject__['nodeinfo']['location']['longitude']
-            return geo
-        return None
+        try:
+            return {
+                'lat' : self.__jsonObject__['nodeinfo']['location']['latitude'],
+                'lon' : self.__jsonObject__['nodeinfo']['location']['longitude']
+            }
+        except:
+            return None
 
     def __getPublicAddresses__(self):
         addresses = []
-        if 'addresses' in self.__jsonObject__['nodeinfo']['network']:
+        try:
             for address in self.__jsonObject__['nodeinfo']['network']['addresses']:
                 if not address.startswith('fe80'):
                     addresses.append(address)
+        except:
+            pass
         return addresses
     
     def __getSiteCode__(self):

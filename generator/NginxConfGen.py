@@ -17,9 +17,9 @@ class NginxConfGen(object):
         
     def __genDomain__(self, domain):
         nodes = {}
-        for localGraph in self.__filter__.filterLocalGraphs(domain.localGraphs):
+        for localGraph in self.__filter__.filterLocalGraphs(domain, domain.localGraphs):
             try:
-                for node in self.__filter__.filterNodes(localGraph.getNodesWithNoDependencies()):
+                for node in self.__filter__.filterNodes(domain, localGraph.getNodesWithNoDependencies()):
                     nodes[node.nodeID] = {
                         'hostname' : node.hostname,
                         'ipv6_addresses' : node.publicIPv6Addresses                  
