@@ -73,8 +73,8 @@ class NodeHierarchy(object):
 
     def __parseArguments__(self):
         parser = argparse.ArgumentParser(description='This Script generates a hierarchical nodes list for node migration using nginx geo feature.')
-        parser.add_argument('-r', '--raw-json', required=False, default='https://karte.freifunk-muensterland.de/data/raw.json', help='Location of raw.json file (can be local folder or remote URL).')
-        parser.add_argument('-s', '--shapes-path', required=False, default='https://freifunk-muensterland.de/md-fw-dl/shapes/', help='Path of shapefiles (can be local folder or remote URL).')
+        parser.add_argument('-r', '--raw-json', required=False, default='https://karte.freifunk-ostvest.de/data/raw.json', help='Location of raw.json file (can be local folder or remote URL).')
+        parser.add_argument('-s', '--shapes-path', required=False, default='https://images.freifunk-ostvest.de/md-fw-dl/shapes/', help='Path of shapefiles (can be local folder or remote URL).')
         parser.add_argument('-t', '--targets', nargs='+', required=True, help='List of targets which should be proceeded. Example: -t citya cityb ...')
         parser.add_argument('-sttp', '--site-to-target-prefix', required=False, help='Used to match site and target also when prefixes are different. Example: -sttp "ffmsd,domaene"')
         parser.add_argument('-o', '--out-file', default='./webserver-configuration', required=False, help='Filename where the generated Output should stored.')
